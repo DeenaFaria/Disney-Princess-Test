@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="quizApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Disney Princess Quiz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body ng-controller="QuizController">
+
+    <div class="quiz-container">
+        <h1>Which Disney Princess Are You?</h1>
+        
+        <div ng-show="!quizCompleted">
+            <form name="quizForm" novalidate>
+                <div ng-repeat="question in questions" ng-show="$index === currentQuestionIndex">
+                    <h3>{{question.text}}</h3>
+                    <div ng-repeat="option in question.options">
+                        <label>
+                            <input type="radio" ng-model="answers[question.id]" ng-value="option.value" name="question{{question.id}}" required ng-change="validateQuestion(question.id)"> {{option.text}}
+                        </label>
+                    </div>
+                    <div ng-show="quizForm['question' + question.id].$error.required && quizForm['question' + question.id].$touched" class="error">This question is required.</div>
+                </div>
+                <div class="navigation">
+                    <button ng-if="currentQuestionIndex > 0" ng-click="prevQuestion()">Previous</button>
+                    <button ng-if="currentQuestionIndex < questions.length - 1" ng-click="nextQuestion()" ng-disabled="quizForm['question' + questions[currentQuestionIndex].id].$invalid">Next</button>
+                    <button ng-if="currentQuestionIndex === questions.length - 1" ng-click="submitQuiz()" ng-disabled="quizForm['question' + questions[currentQuestionIndex].id].$invalid">Submit Quiz</button>
+                </div>
+            </form>
+        </div>
+
+        <div ng-show="quizCompleted">
+            <h2>You are: {{result}}!</h2>
+            <img ng-src="{{princessImages[result]}}" alt="{{result}}">
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Deena Faria. All rights reserved.</p>
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="app.js"></script>
+    <script src="controller.js"></script>
+</body>
+</html>
