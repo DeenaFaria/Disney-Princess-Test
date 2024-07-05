@@ -1,6 +1,6 @@
 "scripts": {
   "build": "ng build --prod"
-}
+},
 {
   "devDependencies": {
     "@angular/cli": "^18.0.7"
